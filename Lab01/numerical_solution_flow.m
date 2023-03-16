@@ -19,7 +19,7 @@ global mu = 0.2;
 global beta = 0.2;
 global N = 50;
 global K = 50;
-global M = 100;
+global M = 1000;
 global delta_x = 1/(N-1);
 global delta_y = 1/(K-1);
 global R = (beta*delta_x)/(2*mu);
@@ -68,7 +68,7 @@ function f_val = F(x, y)
   global r_s;
   global q_m;
   global r_l;
-  f_val = -q_m*(F1*cos(r_l*x)+F2*sin(r_l*x))*sin(q_m*y)-r_s*(-G2*cos(r_s*x)+G1*sin(r_s*x)*sin(q_p*y));
+  f_val = -q_m*(F1*cos(r_l*x)+F2*sin(r_l*x))*sin(q_m*y)-r_s*(-G2*cos(r_s*x)+G1*sin(r_s*x))*sin(q_p*y);
 endfunction;
 
 %------------------------------------------------------------------------------------------------------------------------
@@ -76,8 +76,7 @@ endfunction;
 x1 = linspace(0, r, 50);
 y1 = linspace(0, q, 50);
 [xx1, yy1] = meshgrid(x1, y1);
-Psi_analytic = (C_1.*exp(A.*xx1)+C_2.*exp(B.*xx1)+D_1.*cos(r_l.*xx1)+D_2.*sin(r_l.*xx1)).*sin(q_m.*yy1)
-+ (C_1_bar.*exp(A_bar.*xx1)+C_2_bar.*exp(B_bar.*xx1)+D_1_bar.*cos(r_s.*xx1) + D_2_bar.*sin(r_s.*xx1)).*sin(q_p.*yy1);
+Psi_analytic = (C_1.*exp(A.*xx1)+C_2.*exp(B.*xx1)+D_1.*cos(r_l.*xx1)+D_2.*sin(r_l.*xx1)).*sin(q_m.*yy1)+ (C_1_bar.*exp(A_bar.*xx1)+C_2_bar.*exp(B_bar.*xx1)+D_1_bar.*cos(r_s.*xx1) + D_2_bar.*sin(r_s.*xx1)).*sin(q_p.*yy1);
 
 %------------------------------------------------------------------------------------------------------------------------
 Psi_x = zeros(N+1, K+1);
@@ -94,7 +93,6 @@ for iter = 1 : M;
     endfor;
   endfor;
 
-  clf;
   subplot (1, 2, 1)
   contour(xx1, yy1, Psi_analytic, 25);
   title ("Analytical solution (Flow)");
